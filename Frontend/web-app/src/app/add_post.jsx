@@ -33,7 +33,7 @@ const AddPost = () => {
 
     try {
       // Mock API call
-      const response = await fetch("http://localhost:3001/generate-image", {
+      const response = await fetch("http://3.146.199.244:3001/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
@@ -41,8 +41,11 @@ const AddPost = () => {
 
       if (!response.ok) throw new Error("Failed to generate image");
 
-      const imageBlob = await response.blob();
-      const imageUrl = URL.createObjectURL(imageBlob);
+      const data = await response.json();
+
+        // Get the image URL from the response (assuming it's in 'data.links')
+        const imageUrl = data.links;  // Assuming 'links' is the S3 URL
+
       setPreviewImage(imageUrl); // Display the generated image in the modal
     } catch (error) {
       console.error(error);
@@ -148,15 +151,24 @@ const AddPost = () => {
           <h5 className="text-sm font-bold mb-4 text-gray-500">
             ඔබට ප්‍රෝම්ප් එකක් ලබා දීම සඳහා සිංහල හෝ ඉංග්‍රීසි භාෂාව භාවිතා කළ හැක, සහ අවම වශයෙන් වචන 20 ක් ඇතුළත් කරන්න
           </h5>
+      
+          {/* Textarea for Prompt */}
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Enter a prompt"
-            className="w-full border border-gray-300 rounded p-2 mb-4 text-black text-sm"
+            className="w-full border border-gray-300 rounded p-2 mb-2 text-black text-sm"
           />
       
+          {/* Error Message */}
+          {prompt.length < 20 && (
+            <p className="text-red-500 text-sm mb-4">
+              The prompt must be at least 20 characters long.
+            </p>
+          )}
+      
           {isLoading && (
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center mb-4">
               <div className="w-6 h-6 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
             </div>
           )}
@@ -171,10 +183,16 @@ const AddPost = () => {
             </div>
           )}
       
+          {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-2">
             <button
               onClick={handleGenerateImage}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+              disabled={prompt.length < 20} // Disable if prompt is too short
+              className={`${
+                prompt.length >= 20
+                  ? 'bg-blue-500 hover:bg-blue-700'
+                  : 'bg-gray-300 cursor-not-allowed'
+              } text-white font-bold py-2 px-4 rounded w-full`}
             >
               Generate
             </button>
@@ -185,7 +203,7 @@ const AddPost = () => {
                 previewImage ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-300'
               } text-white font-bold py-2 px-4 rounded w-full`}
             >
-              Add Image
+              Use This Image
             </button>
             <button
               onClick={() => setIsModalOpen(false)}
@@ -195,7 +213,7 @@ const AddPost = () => {
             </button>
           </div>
         </div>
-      </div>      
+      </div>        
       )}
 
     <div className="flex justify-center items-center bg-yellow-100 text-black py-3 shadow-md rounded-lg mb-8 p-8">
