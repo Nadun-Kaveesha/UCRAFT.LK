@@ -33,7 +33,7 @@ const AddPost = () => {
 
     try {
       // Mock API call
-      const response = await fetch("http://localhost:3001/generate-image", {
+      const response = await fetch("http://3.146.199.244:3001/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
@@ -41,8 +41,11 @@ const AddPost = () => {
 
       if (!response.ok) throw new Error("Failed to generate image");
 
-      const imageBlob = await response.blob();
-      const imageUrl = URL.createObjectURL(imageBlob);
+      const data = await response.json();
+
+        // Get the image URL from the response (assuming it's in 'data.links')
+        const imageUrl = data.links;  // Assuming 'links' is the S3 URL
+
       setPreviewImage(imageUrl); // Display the generated image in the modal
     } catch (error) {
       console.error(error);
