@@ -33,7 +33,7 @@ const AddPost = () => {
 
     try {
       // Mock API call
-      const response = await fetch("http://3.146.199.244:3001/generate-image", {
+      const response = await fetch("http://98.85.157.243:3001/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
