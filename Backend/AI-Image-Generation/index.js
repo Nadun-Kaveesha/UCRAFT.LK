@@ -3,7 +3,7 @@ import { fileURLToPath } from "url"; // Import fileURLToPath to get the current 
 import path from "path"; // For serving the HTML file
 import generateImage from "./generate-image.js";
 import cors from "cors";
-import publicIp from "public-ip";
+import { publicIp, publicIpv4, publicIpv6 } from "public-ip";
 
 
 //Create Express app
@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Get the public IP address of the server
-const ip = await publicIp.v4();
+const ip = await publicIpv4();
 
 
 
