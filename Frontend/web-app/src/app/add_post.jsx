@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import publicIp from "public-ip";
 
 
 const AddPost = () => {
@@ -35,7 +34,6 @@ const AddPost = () => {
 
     try {
       // Mock API call
-      const ip = await publicIp.v4();
       const response = await fetch("http://98.85.157.243:3001/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
