@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+
 const AddPost = () => {
   const [topic, setTopic] = useState(""); // Topic
   const [description, setDescription] = useState(""); // Post description
