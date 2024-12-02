@@ -22,7 +22,7 @@ const ip = await publicIp.v4();
 
 // Serve the frontend `index.html` file
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "main.html")); // Make sure `index.html` is in the same directory
+  res.sendFile(path.join(__dirname, "main.html")); 
 });
 
 // Handle the image generation
