@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import fs from "fs";
+import getSecrets from "./awsSecrets.js";
 
 // Get the AWS secrets from the Secrets Manager
 const secrets = await getSecrets("ucraft-secrets");
